@@ -1,0 +1,102 @@
+body {
+  font-family: "Kanit", sans-serif !important;
+}
+
+.hidden-el {
+  display: none;
+}
+
+.firstBlur {
+  margin: 50px 20px 0;
+  border: solid 1px black;
+  padding: 20px;
+  position: relative;
+}
+
+.modal-open .container-fluid,
+.modal-open .container {
+  -webkit-filter: blur(4px) !important;
+  -moz-filter: blur(4px) !important;
+  -o-filter: blur(4px) !important;
+  -ms-filter: blur(4px) !important;
+  filter: blur(4px) !important;
+}
+
+.text-sm {
+  font-size: 12px !important;
+}
+
+.banner-header {
+  width: 100%;
+  background-repeat: no-repeat;
+}
+
+.label-title-form {
+  border-radius: 20px;
+  /* font-size: 16px !important; */
+}
+
+.small-text {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.gray-text {
+  color: #424242 !important;
+}
+
+.img-exmple {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.patient-list {
+  cursor: pointer;
+}
+
+.nav-link {
+  font-weight: 500 !important;
+}
+
+fieldset.scheduler-border {
+  border: 1px solid #33b5e5 !important;
+  padding: 0 1.4em 1.4em 1.4em !important;
+  margin: 0 0 1.5em 0 !important;
+  -webkit-box-shadow: 0px 0px 0px 0px #33b5e5;
+  box-shadow: 0px 0px 0px 0px #33b5e5;
+}
+
+legend.scheduler-border {
+  font-size: 1.2em !important;
+  font-weight: 500 !important;
+  text-align: left !important;
+  width: auto;
+  padding: 0 10px;
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  h5.label-title-form {
+    font-size: 14px;
+  }
+
+  legend.scheduler-border {
+    font-size: 14px !important;
+  }
+
+  label {
+    font-size: 12px !important;
+  }
+
+  .navbar-brand {
+    font-size: 1em !important;
+  }
+
+  select {
+    font-size: 14px !important;
+  }
+
+  .date_now {
+    font-size: 14px !important;
+  }
+}
