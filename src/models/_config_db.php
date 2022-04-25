@@ -1,18 +1,12 @@
 <?php
-$HOST = "localhost";
-$USER = "root";
-$PASS = '';
-$DBNAME = "db_reh_gecc";
-
-$HOST_HOS = "192.168.77.32";
-$USER_HOS = "sa";
-$PASS_HOS = 'sa';
-$DBNAME_HOS = "hos";
-
-// $HOST = "61.19.127.231";
-// $USER = "sgdev";
-// $PASS = '!Qazxsw2';
-// $DBNAME = "db_reh_covid19";
+// $HOST = "";
+// $USER = "";
+// $PASS = "";
+// $DBNAME = "";
+// $HOST = "";
+// $USER = "";
+// $PASS = "";
+// $DBNAME = "";
 
 $conn_main = new mysqli(
     $HOST,
@@ -95,6 +89,9 @@ function approveStatus($st)
             break;
         case "2":
             $status = "<span class='badge badge-pill badge-success text-sm'>เตรียมเอกสารเรียบร้อย</span>";
+            break;
+        case "3":
+            $status = "<span class='badge badge-pill badge-success text-sm'>ดำเนินการเรียบร้อย</span>";
             break;
         case "9":
             $status = "<span class='badge badge-pill badge-danger text-sm'>กรุณาติดต่อเจ้าหน้าที่</span>";

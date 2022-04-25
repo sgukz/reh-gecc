@@ -1,3 +1,17 @@
+<?php
+// $petition_type = $created_date = $petition_name = $petition_cid = $about_patient = "";
+// $petition_phone = $petition_address = $request_details = $request_detail_2 = "";
+// $hn = $vn = $an = $vst_date = $cid = $patient_name = $vstdate = $regdate = $dchdate = "";
+// $ward_name = $doctor_name = $appointment_date_admin = "";
+// "";
+// if (isset($_GET['id'])) {
+//     $trackId = base64_decode($_GET['id']);
+//     $get_patient_sys = $patient->getRegisterDocumentByTrackAdmin($track);
+//     $query_patient_sys = $conn_main->query($get_patient_sys);
+//     if ($query_patient_sys) {
+//     }
+// }
+?>
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -25,8 +39,8 @@
                                     while ($dataPetition = $query_register_petition->fetch_assoc()) {
                                     ?>
                                         <option value="<?= $dataPetition['petition_id'] ?>">
-                                        <?= $dataPetition['petition_name']." (".$dataPetition['petition_detail'].")" ?>
-                                    </option>
+                                            <?= $dataPetition['petition_name'] . " (" . $dataPetition['petition_detail'] . ")" ?>
+                                        </option>
                                     <?php
                                     }
                                     ?>
@@ -113,7 +127,25 @@
                                                 โปรดระบุที่อยู่ของผู้ยื่นคำร้อง
                                             </div>
                                         </div>
-                                        <div class="col-12 mb-2">
+                                        <div class="col-6 mb-2">
+                                            <label class="grey-text" for="request_details">
+                                                เพื่อใช้ประกอบการ <span class="text-danger ml-1">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" name="request_details" id="request_details" />
+                                            <div class="invalid-feedback">
+                                                โปรดเลือกความเกี่ยวข้องกับผู้ป่วย
+                                            </div>
+                                        </div>
+                                        <div class="col-6 mb-2">
+                                            <label class="grey-text" for="request_detail_2">
+                                                เพื่อยื่นต่อ <span class="small-text">(ไม่ระบุก็ได้)</span>
+                                            </label>
+                                            <input type="text" class="form-control" name="request_detail_2" id="request_detail_2" />
+                                            <div class="invalid-feedback">
+                                                โปรดเลือกความเกี่ยวข้องกับผู้ป่วย
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-12 mb-2">
                                             <label class="grey-text" for="details">
                                                 เหตุผลการนำไปใช้ประโยชน์ <span class="text-danger ml-1">*</span>
                                             </label>
@@ -121,7 +153,7 @@
                                             <div class="invalid-feedback">
                                                 โปรดระบุเหตุผลการนำไปใช้ประโยชน์
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </fieldset>
                             </div>
@@ -217,14 +249,30 @@
                                                 </label>
                                                 <input type="text" class="form-control" readonly name="doctor_name" id="doctor_name" />
                                             </div>
+                                            <div class="col-6 mb-2">
+                                                <label class="grey-text" for="appointment_date_admin">
+                                                    วันที่นัดรับเอกสาร <span class="text-danger ml-1">*</span>
+                                                </label>
+                                                <input type="date" class="form-control" name="appointment_date_admin" id="appointment_date_admin">
+                                                <div class="invalid-feedback">
+                                                    โปรดระบุวันที่นัดรับเอกสาร
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </fieldset>
                             </div>
-                            <div class="row mt-3">
-                                <div class="col-12">
-                                    <button class="btn btn-info ml-4" type="submit"><i class="fas fa-save mr-1"></i> บันทึก</button>
-                                </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <button class="btn btn-info ml-4" type="submit" id="submitRegister"><i class="fas fa-save mr-1"></i> บันทึก</button>
+                                <span id="printDocument"></span>
+                                <span id="printAppointment"></span>
+                                <span id="resetFormRegister" class="hidden-el">
+                                    <a href="?page=register" class="btn btn-danger">
+                                        <i class="fas fa-redo fa-lg"></i> Reload
+                                    </a>
+                                </span>
                             </div>
                         </div>
                     </form>

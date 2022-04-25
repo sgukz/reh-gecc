@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../models/_config_db.php';
 include '../models/ManageModel.php';
 date_default_timezone_set('Asia/Bangkok');
@@ -29,17 +30,22 @@ if ($_POST) {
         "request_about_id" => $_POST["about_patient"],
         "request_phone" => $_POST["petition_phone"],
         "request_address" => $_POST["petition_address"],
-        "request_details" => $_POST["details"],
+        "request_details" => $_POST["request_details"],
+        "request_detail_2" => $_POST["request_detail_2"] !== "" ? $_POST["request_detail_2"] : "null",
         "vstdate" => $_POST["vst_date"],
         "regdate" => $_POST["admit_date"],
-        "dchdate" => $_POST["dhc_date"] !== "" ? $_POST["dhc_date"] : "",
+        "dchdate" => $_POST["dhc_date"] !== "" ? $_POST["dhc_date"] : "null",
         "dep_name" => $_POST["ward_name"],
         "doctor_name" => $_POST["doctor_name"],
         "petition_id" => $_POST["petition_type"],
+        "approve_user" => $_SESSION['userId'],
+        "approve_datetime" => "NOW()",
+        "approve_status" => 1,
+        "appointment_date" => $_POST["appointment_date_admin"],
         "updated_date" => "NOW()",
         "created_date" => "NOW()",
     ];
-
+    
     $insert_register = $db->Insert("register_document", $formData);
     $query_register = $conn_main->query($insert_register);
     if ($query_register) {

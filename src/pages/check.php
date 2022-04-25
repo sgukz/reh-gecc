@@ -39,7 +39,6 @@ if (isset($_GET["track"])) {
                     <div class="row">
                         <div class="col-12">
                             <?php
-                            echo $_GET["track"];
                             if ($track !== "") {
                                 $get_log = $patient->getRegisterDocumentByID($track);
                                 $query_log = $conn_main->query($get_log);
@@ -56,6 +55,7 @@ if (isset($_GET["track"])) {
                                             $dateEvent = DateTimeThai($dataLog["log_datetime"], 2);
                                             $timeEvent = DateTimeThai($dataLog["log_datetime"], 3);
                                             $appointmentDate = $dataLog["appointment_date"] !== "" ? DateTimeThai($dataLog["appointment_date"], 1) : "";
+                                            $received = $dataLog["receive_name"];
                                         ?>
                                             <div class="tracking-item">
                                                 <div class="tracking-icon status-intransit">
@@ -75,10 +75,13 @@ if (isset($_GET["track"])) {
                                                     } else if ($dataLog["event_name"] === "approve_success") {
                                                         echo "<strong class='text-success'>เตรียมเอกสารเรียบร้อย</strong>";
                                                         echo "<br>วันที่นัดรับเอกสาร " . $appointmentDate;
-                                                        echo "<span>กรุณาติดต่อรับเอกสารได้ที่ ศูนย์ราชการสะดวกจุฬาภรณ์ ชั้น 1 เบอร์ 18 ในวันเวลาราชการ 08.00 - 16.00 น.<br><b class='text-danger'>*<u>หมายเหตุ</u>*</b> กำหนดรับเอกสารภายใน 10 วันทำการ <br>หรือสามารถติดต่อสอบถามได้ที่ <a href='tel: 043518200'>043-518200 ต่อ 7130</a> ในวันเวลาราชการ</span>";
+                                                        echo "<span>กรุณาติดต่อรับเอกสารได้ที่ ศูนย์ราชการสะดวก อาคารเฉลิมพระเกียรติจุฬาภรณ์ ชั้น 1 ห้องเบอร์ 18 ในวันเวลาราชการ 08.00 - 16.00 น.<br><b class='text-danger'>*<u>หมายเหตุ</u>*</b> กำหนดรับเอกสารภายใน 10 วันทำการ <br>หรือสามารถติดต่อสอบถามได้ที่ <a href='tel: 043518200'>043-518200 ต่อ 7130</a> ในวันเวลาราชการ</span>";
                                                     } else if ($dataLog["event_name"] === "approve_consult") {
                                                         echo "<strong class='text-success'>กรุณาติดต่อเจ้าหน้าที่</strong>";
-                                                        echo "<span>สามารถติดต่อได้ที่ ศูนย์ราชการสะดวกจุฬาภรณ์ ชั้น 1 เบอร์ 18 ในวันเวลาราชการ 08.00 - 16.00 น.<br><b class='text-danger'>*<u>หมายเหตุ</u>*</b>สามารถติดต่อสอบถามได้ที่ <a href='tel: 043518200'>043-518200 ต่อ 7130</a> ในวันเวลาราชการ</span>";
+                                                        echo "<span>สามารถติดต่อได้ที่ ศูนย์ราชการสะดวก อาคารเฉลิมพระเกียรติจุฬาภรณ์ ชั้น 1  ห้องเบอร์ 18 ในวันเวลาราชการ 08.00 - 16.00 น.<br><b class='text-danger'>*<u>หมายเหตุ</u>*</b>สามารถติดต่อสอบถามได้ที่ <a href='tel: 043518200'>043-518200 ต่อ 7130</a> ในวันเวลาราชการ</span>";
+                                                    } else if ($dataLog["event_name"] === "received_completed") {
+                                                        echo "<strong class='text-success'>ดำเนินการเรียบร้อย</strong><br>";
+                                                        echo "<span><b>ผู้รับเอกสาร : </b> ".$received."</span>";
                                                     }
                                                     ?>
                                                 </div>

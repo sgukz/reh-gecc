@@ -7,6 +7,7 @@ class DB
         $values = "";
         $i = 1;
         $str_fix = "NOW()";
+        $str_fix_null = "null";
         foreach ($arrayData as $key => $value) {
 
             if ($i != 1) {
@@ -14,7 +15,7 @@ class DB
                 $values .= ", ";
             }
             $fields .= "$key";
-            if (strpos($value, $str_fix) !== false) {
+            if (strpos($value, $str_fix) !== false || strpos($value, $str_fix_null) !== false) {
                 $values .= "$value";
             } else {
                 $values .= "'$value'";
@@ -29,11 +30,12 @@ class DB
         $fields = "";
         $i = 1;
         $str_fix = "NOW()";
+        $str_fix_null = "null";
         foreach ($arrayData as $key => $value) {
             if ($i != 1) {
                 $fields .= ", ";
             }
-            if (strpos($value, $str_fix) !== false) {
+            if (strpos($value, $str_fix) !== false || strpos($value, $str_fix_null) !== false) {
                 $fields .= "$key = " . "$value";
             } else {
                 $fields .= "$key = " . "'$value'";

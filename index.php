@@ -48,12 +48,12 @@
       <!-- Links -->
       <ul class="navbar-nav mr-auto">
         <li class="nav-item <?=isset($_GET["page"]) ? "" : "active"?>">
-          <a class="nav-link" href="index">ลงทะเบียนคำร้อง
+          <a class="nav-link" href="index.php">ลงทะเบียนคำร้อง
             <span class="sr-only">(current)</span>
           </a>
         </li>
         <li class="nav-item <?=isset($_GET["page"]) ? "active" : ""?>">
-          <a class="nav-link" href="check">ตรวจสอบสถานะคำร้อง</a>
+          <a class="nav-link" href="index.php?page=check">ตรวจสอบสถานะคำร้อง</a>
         </li>
     </div>
     <!-- Collapsible content -->

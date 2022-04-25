@@ -8,17 +8,17 @@ $resp = array();
 if ($_POST) {
     $user = trim($_POST['user_name']);
     $pwd = trim($_POST['pwd']);
-    $encypt_pwd = strtoupper(md5("reh" . $pwd . "gecc"));
+    // $encypt_pwd = strtoupper(md5("reh" . $pwd . "gecc"));
 
-    $sqlLogin = $patient->getUserLogin($user, $encypt_pwd);
-    $qeuryLogin = $conn_main->query($sqlLogin);
+    $sqlLogin = $patient->getUserLogin($user, $pwd);
+    $qeuryLogin = $conn_hosxp->query($sqlLogin);
     if ($qeuryLogin) {
         $num_rows = $qeuryLogin->num_rows;
         if ($num_rows > 0) {
             $dataLogin = $qeuryLogin->fetch_assoc();
-            $_SESSION['userId'] = $dataLogin["userId"];
-            $_SESSION['userShortname'] = $dataLogin["shortname"];
-            $_SESSION['userName'] = $dataLogin["fullname"];
+            $_SESSION['userId'] = $dataLogin["loginname"];
+            $_SESSION['userShortname'] = $dataLogin["groupname"];
+            $_SESSION['userName'] = $dataLogin["name"];
             $resp = [
                 "status_code" => 200,
                 "msg" => "ล็อคอินสำเร็จ",
@@ -30,6 +30,7 @@ if ($_POST) {
                 "status_code" => 400,
                 "msg" => "ล็อคอินล้มเหลว กรุณาลองใหม่อีกครั้ง",
                 "type" => "error",
+                "sql_error" => $sqlLogin
             ];
         }
     } else {

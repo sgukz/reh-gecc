@@ -1,0 +1,27 @@
+@import url(../../font/THSarabunNew/fonts/thsarabunnew.css);
+.font-thaisaraban {
+  font-family: "THSarabunNew", sans-serif;
+}
+
+.header-report{
+    font-size: 10pt;
+    font-weight: 600;
+}
+
+.header-table{
+    font-size: 8pt;
+    font-weight: 600;
+}
+
+.data-report{
+    font-size: 8pt;
+}
+
+@page { size: landscape; }
+
+
+@media print {
+    table thead > tr > th {
+        background-color: #e0e0e0 !important;
+    }
+}

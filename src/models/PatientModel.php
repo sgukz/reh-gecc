@@ -22,7 +22,8 @@ class Patients
         return $sql;
     }
 
-    function getPatientByVstdateAndHN($vsdate, $hn){    
+    function getPatientByVstdateAndHN($vsdate, $hn)
+    {
         $sql =  "SELECT o.vn,
                     o.an,
                     o.vstdate as visitDate, 
@@ -37,7 +38,8 @@ class Patients
         return $sql;
     }
 
-    function getPatientByAN($an){    
+    function getPatientByAN($an)
+    {
         $sql =  "SELECT i.an, 
                     i.vn,
                     i.regdate as visitDate, 
@@ -51,23 +53,20 @@ class Patients
         return $sql;
     }
 
-    function getRegisterDocumentAll(){
+    function getRegisterDocumentDoctorName()
+    {
+        $sql = "SELECT doctor_name FROM register_document ORDER BY doctor_name";
+        return $sql;
+    }
+
+    function getRegisterDocumentAll()
+    {
         $sql = "SELECT * FROM register_document ORDER BY updated_date DESC";
         return $sql;
     }
 
-    function getRegisterDocumentByTrackAdmin($trackId){
-        $sql = "SELECT * FROM register_document d
-                    LEFT JOIN register_tracking t ON d.id = t.doc_id
-                    LEFT JOIN register_petition p ON p.petition_id = d.petition_id
-                    LEFT JOIN register_about a ON d.request_about_id = a.about_id
-                    LEFT JOIN register_member m ON d.approve_user = m.userId
-                WHERE t.track_id = '$trackId' OR d.request_cid = '$trackId'
-                ORDER BY d.updated_date DESC";
-        return $sql;
-    }
-
-    function getRegisterDocumentByTrack($trackId){
+    function getRegisterDocumentByTrackAdmin($trackId)
+    {
         $sql = "SELECT * FROM register_document d
                     LEFT JOIN register_tracking t ON d.id = t.doc_id
                     LEFT JOIN register_petition p ON p.petition_id = d.petition_id
@@ -77,7 +76,19 @@ class Patients
         return $sql;
     }
 
-    function getRegisterDocumentByID($trackId){
+    function getRegisterDocumentByTrack($trackId)
+    {
+        $sql = "SELECT * FROM register_document d
+                    LEFT JOIN register_tracking t ON d.id = t.doc_id
+                    LEFT JOIN register_petition p ON p.petition_id = d.petition_id
+                    LEFT JOIN register_about a ON d.request_about_id = a.about_id
+                WHERE t.track_id = '$trackId' OR d.request_cid = '$trackId'
+                ORDER BY d.updated_date DESC";
+        return $sql;
+    }
+
+    function getRegisterDocumentByID($trackId)
+    {
         $sql = "SELECT * FROM register_document d
                     LEFT JOIN register_tracking t ON d.id = t.doc_id
                     LEFT JOIN register_log l ON l.track_id = t.track_id
@@ -86,33 +97,53 @@ class Patients
         return $sql;
     }
 
-    function getRegisterAboutAll(){
+    function getRegisterAboutAll()
+    {
         $sql = "SELECT * FROM register_about ORDER BY about_id";
         return $sql;
     }
 
-    function getRegisterPetitionAll(){
-        $sql = "SELECT * FROM register_petition ORDER BY petition_id";
+    function getRegisterPetitionAll()
+    {
+        $sql = "SELECT * FROM register_petition ORDER BY petition_name";
         return $sql;
     }
 
-    function getRegisterLogAll(){
+    function getRegisterLogAll()
+    {
         $sql = "SELECT * FROM register_log ORDER BY log_datetime DESC";
         return $sql;
     }
 
-    function getRegisterStatusAll(){
+    function getRegisterStatusAll()
+    {
         $sql = "SELECT * FROM register_status ORDER BY status_id";
         return $sql;
     }
-    
-    function getRegisterLog($trackId){
+
+    function getRegisterLog($trackId)
+    {
         $sql = "SELECT * FROM register_log WHERE track_id = '$trackId' ORDER BY log_datetime DESC";
         return $sql;
     }
 
-    function getUserLogin($user, $pwd){
-        $sql = "SELECT * FROM register_member WHERE `user_name` = '$user' AND pwd = '$pwd' AND is_active = 1 LIMIT 1";
+    function getUserLogin($user, $pwd)
+    {
+        $sql = "SELECT * FROM opduser 
+                WHERE loginname = '$user'
+                AND (passweb = UPPER(MD5('$pwd')) OR passweb = LOWER(MD5('$pwd')))";
+        return $sql;
+    }
+
+    function getDocumentById($id)
+    {
+        $sql = "SELECT * FROM register_files WHERE doc_id = $id ORDER BY created_date_img DESC";
+        return $sql;
+    }
+
+    function getDocumentByFileId($id)
+    {
+        $sql = "SELECT * FROM register_files WHERE files_id = $id";
         return $sql;
     }
 }

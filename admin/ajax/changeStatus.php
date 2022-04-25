@@ -9,6 +9,7 @@ if ($_POST) {
         $arrayData = array(
             "approve_status" => $_POST["approve_status"],
             "approve_datetime" => $_POST["approve_datetime"],
+            "receive_name" => $_POST["receive_name"],
             "approve_user" => $_POST["approve_user"],
             "completed_date" => $_POST["completed_date"],
             "approve_details" => $_POST["approve_details"]
@@ -17,6 +18,7 @@ if ($_POST) {
         $arrayData = array(
             "approve_status" => $_POST["approve_status"],
             "appointment_date" => $_POST["appointment_date"],
+            "receive_name" => $_POST["receive_name"],
             "approve_user" => $_POST["approve_user"],
             "completed_date" => $_POST["completed_date"],
             "approve_details" => $_POST["approve_details"]
@@ -39,6 +41,8 @@ if ($_POST) {
                 $approve_status = "approve_accept";
             } elseif ($_POST["approve_status"] === "2") {
                 $approve_status = "approve_success";
+            } elseif ($_POST["approve_status"] === "3") {
+                $approve_status = "received_completed";
             } elseif ($_POST["approve_status"] === "9") {
                 $approve_status = "approve_consult";
             }

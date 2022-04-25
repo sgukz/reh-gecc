@@ -13,7 +13,15 @@ if ($_POST) {
     if ($query_patient_sys) {
         $num_rows_sys = $query_patient_sys->num_rows;
         if ($num_rows_sys > 0) {
+            $fullNameUser = "";
             while ($dataPatient = $query_patient_sys->fetch_assoc()) {
+                $get_username = "SELECT `name` FROM opduser WHERE loginname = '{$dataPatient['approve_user']}'";
+                $query_get_username = $conn_hosxp->query($get_username);
+                $num = $query_get_username->num_rows;
+                if($num > 0){
+                    $dataUser = $query_get_username->fetch_assoc();
+                    $fullNameUser = $dataUser["name"];
+                }
                 $patients = [];
                 $patients["id"] = $dataPatient["id"];
                 $patients["hn"] = $dataPatient["hn"];
@@ -39,8 +47,9 @@ if ($_POST) {
                 $patients["updated_date"] = $dataPatient["updated_date"];
                 $patients["approve_status"] = $dataPatient["approve_status"];
                 $patients["approve_details"] = $dataPatient["approve_details"];
+                $patients["receive_name"] = $dataPatient["receive_name"];
                 $patients["appointment_date"] = $dataPatient["appointment_date"];
-                $patients["fullname"] = $dataPatient["fullname"];
+                $patients["fullname"] = $fullNameUser;
                 $arrayPatient[] = $patients;
                 $resp = [
                     "status_code" => 200,

@@ -33,6 +33,7 @@ $.validator.setDefaults({
                         title: 'แจ้งเตือน',
                         text: resp.msg,
                         icon: resp.type,
+                        focusConfirm: true,
                     })
                     // console.log(resp);
                 }
