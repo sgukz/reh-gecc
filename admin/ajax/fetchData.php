@@ -1,9 +1,9 @@
 <?php
 include '../../src/models/_config_db.php';
 include '../../src/functions/DateTime.php';
-$columns = array("created_date", "track_id", "petition_name", "request_name", "patient_name", "approve_status");
+$columns = array("track_id", "petition_name", "request_name", "patient_name", "approve_status");
 $dateNow = $_POST['date_select'];
-$conditions = $dateNow !== "all" ? "WHERE d.created_date LIKE '%$dateNow%'" : "";
+$conditions = $dateNow !== "all" ? " WHERE d.created_date LIKE '%$dateNow%' " : " WHERE d.created_date IS NOT NULL ";
 $getRegister = "SELECT * FROM register_document d
                 LEFT JOIN register_tracking t ON d.id = t.doc_id
                 LEFT JOIN register_status s ON d.approve_status = s.status_id
@@ -11,13 +11,7 @@ $getRegister = "SELECT * FROM register_document d
                 $conditions ";
 
 if (isset($_POST["search"]["value"]) && $_POST["search"]["value"] !== "") {
-    $getRegister .= " AND t.track_id LIKE '%" . $_POST["search"]["value"] . "%'";
-    $getRegister .= " OR d.request_name LIKE '%" . $_POST["search"]["value"] . "%'";
-    $getRegister .= " OR d.created_date LIKE '%" . $_POST["search"]["value"] . "%'";
-    $getRegister .= " OR p.petition_name LIKE '%" . $_POST["search"]["value"] . "%'";
-    $getRegister .= " OR d.patient_name LIKE '%" . $_POST["search"]["value"] . "%'";
-    $getRegister .= " OR d.hn LIKE '%" . $_POST["search"]["value"] . "%'";
-    $getRegister .= " OR s.status_name LIKE '%" . $_POST["search"]["value"] . "%'";
+    $getRegister .= " AND t.track_id LIKE '%" . $_POST["search"]["value"] . "%' OR (d.request_name LIKE '%" . $_POST["search"]["value"] . "%' OR d.patient_name LIKE '%" . $_POST["search"]["value"] . "%' OR d.hn LIKE '%" . $_POST["search"]["value"] . "%')";
 }
 
 if (isset($_POST["order"])) {
@@ -62,13 +56,14 @@ while ($dataRegister = $queryGetRegister->fetch_array()) {
     $subArray[] = '<span>' . approveStatus($dataRegister["approve_status"]) .($fullNameUser == "" ? "" : "<br> ผู้รับเรื่อง :: ".$fullNameUser ).'</span>';
     $subArray[] = '<span>
                         <button type="button" class="btn btn-primary btn-sm px-3" data-toggle="modal" data-regid=' . $dataRegister['id'] . ' data-trackid=' . $dataRegister['track_id'] . ' data-statusdoc=' . $dataRegister['approve_status'] . ' data-target="#showDataRegister"  title="ดูเพิ่มเติม"><i class="fas fa-eye fa-lg pr-1"></i> ดูเพิ่มเติม</button>
+                        <a href="?page=register&id='.base64_encode($dataRegister['track_id']).'" target="_BLANK" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"> </i> แก้ไข
+                        </a>
                         <button type="button" class="btn btn-danger btn-sm px-3 deleteRegister" name=' . $dataRegister['track_id'] . ' id=' . $dataRegister['id'] . ' title="ลบข้อมูล"><i class="fas fa-trash fa-lg pr-1"></i> ลบ</button>
                     </span>';
     $data[] = $subArray;
 }
-// <a href="?page=register&id='.base64_encode($dataRegister['track_id']).'" target="_BLANK" class="btn btn-warning btn-sm">
-//                             <i class="fas fa-edit"> </i> แก้ไข
-//                         </a>
+
 $sql = "SELECT * FROM register_document";
 $query = $conn_main->query($sql);
 $totalData = $query->num_rows;

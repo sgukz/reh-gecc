@@ -1,7 +1,12 @@
-
+let queryString = window.location.search;
+let arrayUrl = queryString.split("&id=")
+let regisId = arrayUrl[1]
+if(regisId !== undefined){
+    let cid = $("#cid").val();
+    getPatient(cid)
+}
 $.validator.setDefaults({
     submitHandler: function () {
-
         $.ajax({
             method: "POST",
             url: "../src/controllers/RegisterController.php",
@@ -27,7 +32,7 @@ $.validator.setDefaults({
                     }).then((result) => {
                         /* Read more about handling dismissals below */
                         if (result.dismiss === Swal.DismissReason.timer) {
-                            $("#submitRegister").attr("disabled", true)
+                            // $("#submitRegister").attr("disabled", true)
                             $("#resetFormRegister").removeClass("hidden-el")
                             $("#printDocument").html(`<button type="button" class="btn peach-gradient printDocument" id="${trackid}">
                                             <i class="fas fa-print fa-lg"></i> พิมพ์คำร้อง
@@ -38,11 +43,11 @@ $.validator.setDefaults({
                         }
                     })
                 } else {
-                    Swal.fire({
-                        title: 'แจ้งเตือน',
-                        text: resp.msg,
-                        icon: resp.type,
-                    })
+                    // Swal.fire({
+                    //     title: 'แจ้งเตือน',
+                    //     text: resp.msg,
+                    //     icon: resp.type,
+                    // })
                     console.log(resp);
                 }
             })
@@ -62,7 +67,6 @@ $("#formRegister").validate({
         petition_phone: "required",
         petition_address: "required",
         patient_name: "required",
-        vstdate: "required",
         request_details: "required",
         appointment_date_admin: "required",
     },
@@ -183,7 +187,14 @@ function getVstdate(vstdate, section, hnORan) {
                     $("#ward_name").val(resp.data[0].dep_name);
                     $("#doctor_name").val(resp.data[0].DoctorName);
                     $("#admit_date_display").val(DateTimeThai(resp.data[0].visitDate));
-                    $("#dhc_date_display").val(resp.data[0].dchDate !== "" ? DateTimeThai(resp.data[0].dchDate) : "");
+                    if(resp.data[0].dchDate !== ""){
+                        $("#dhc_date_display").val(DateTimeThai(resp.data[0].dchDate));
+                        $("#showSelectDchDate").addClass("hidden-el")
+                        $("#showDisplayDchDate").removeClass("hidden-el")
+                    }else{
+                        $("#showDisplayDchDate").addClass("hidden-el")
+                        $("#showSelectDchDate").removeClass("hidden-el")
+                    }
                 } else {
                     Swal.fire({
                         title: "แจ้งเตือน",

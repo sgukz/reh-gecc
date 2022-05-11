@@ -8,6 +8,7 @@
   <title>ลงทะเบียนคำร้องขอเอกสาร - ศูนย์ราชการสะดวก โรงพยาบาลร้อยเอ็ด</title>
   <!-- MDB icon -->
   <link rel="icon" href="src/assets/img/logo.png" type="image/x-icon">
+  <link rel="shortcut icon" href="src/assets/img/logo.png">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
   <!-- Google Fonts Roboto -->

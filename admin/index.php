@@ -8,6 +8,7 @@
     <title>Administrator - ศูนย์ราชการสะดวก โรงพยาบาลร้อยเอ็ด</title>
     <!-- MDB icon -->
     <link rel="icon" href="../src/assets/img/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../src/assets/img/logo.png">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
     <!-- Google Fonts Roboto -->
@@ -33,6 +34,8 @@
     include '../src/models/_config_db.php';
     include '../src/models/PatientModel.php';
     include '../src/functions/DateTime.php';
+    include 'data/_month.php';
+
     $patient = new Patients();
     ?>
     <!--Navbar-->
@@ -173,17 +176,41 @@
 
                             <?php
                             } elseif ($_GET["page"] === "report-proccess") {
+                                $paramDate = isset($_GET["reportDateSelect"]) ? $_GET["reportDateSelect"] : date("Y-m-d");
+                                $arrayParaDate = explode("-", $paramDate);
+                                $month = $arrayParaDate[1];
                             ?>
                                 <div class="row">
                                     <div class="col-12">
                                         <h4 id="title-show-document">รายงานสรุปดำเนินการ</h4>
-                                        <div class="text-right">
-                                            <button type="button" class="btn aqua-gradient btn-sm font-weight-bold" onclick="printReport('reportProcess')">
-                                                <i class="fas fa-print fa-lg pr-1"></i> ปริ้นรายงาน
-                                            </button>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label class="grey-text" for="reportDateSelect">
+                                                    เลือกเดือน
+                                                </label><br>
+                                                <select class="browser-default custom-select col-4" name="reportDateSelect" id="reportDateSelect">
+                                                    <?php
+                                                    foreach ($arrayMonth as $key => $value) {
+                                                    ?>
+                                                        <option value="<?= $key ?>" <?= ($month === $key ? "selected" : "") ?>>
+                                                            <?= $value ?>
+                                                        </option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="text-right">
+                                                    <button type="button" class="btn aqua-gradient btn-sm font-weight-bold" onclick="printReport('reportProcess')">
+                                                        <i class="fas fa-print fa-lg pr-1"></i> ปริ้นรายงาน
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
+
                                         <div id="reportProcess">
-                                            <div class="text-center font-thaisaraban header-report">รายงานสรุปดำเนินการ</div>
+                                            <div class="text-center font-thaisaraban header-report">รายงานสรุปดำเนินการ <?=$arrayMonth[$month]?></div>
                                             <div class="text-right font-thaisaraban header-report">ข้อมูล ณ วันที่ <?= DateTimeThai(date("Y-m-d"), 1) ?></div>
                                             <table class="mt-3" width="100%" border="1" cellpadding="0" cellspacing="1">
                                                 <thead>
@@ -205,7 +232,6 @@
                                                             d.created_date,
                                                             d.appointment_date,
                                                             d.completed_date,
-                                                            (DATEDIFF(d.appointment_date, d.completed_date) + 1) as numCompleted,
                                                             d.approve_user
                                                         FROM
                                                             register_document d
@@ -214,46 +240,90 @@
                                                             LEFT JOIN register_status s ON d.approve_status = s.status_id 
                                                         WHERE
                                                             d.approve_status = 3 
-                                                            AND d.approve_user = '$userId' 
+                                                            AND d.created_date BETWEEN CONCAT(date_add(date_add(LAST_DAY('$paramDate'),interval 1 DAY),interval -1 MONTH), ' 00:00:00') 
+                                                            AND CONCAT(LAST_DAY('$paramDate'), ' 23:59:59') 
+                                                            -- AND d.approve_user = '$userId'
                                                         ORDER BY
-                                                            created_date DESC";
+                                                            d.created_date DESC";
                                                     $query_report = $conn_main->query($sql);
+                                                    $num_rows_report = $query_report->num_rows;
                                                     $no = 1;
                                                     $fullNameUser = "";
-                                                    while ($dataReport = $query_report->fetch_assoc()) {
-                                                        $get_username = "SELECT `name` FROM opduser WHERE loginname = '{$dataReport['approve_user']}'";
-                                                        $query_get_username = $conn_hosxp->query($get_username);
-                                                        $num = $query_get_username->num_rows;
-                                                        if ($num > 0) {
-                                                            $dataUser = $query_get_username->fetch_assoc();
-                                                            $fullNameUser = $dataUser["name"];
-                                                        }
+                                                    $countLess = $countOver = 0;
+                                                    if ($num_rows_report > 0) {
+                                                        while ($dataReport = $query_report->fetch_assoc()) {
+                                                            $get_username = "SELECT `name` FROM opduser WHERE loginname = '{$dataReport['approve_user']}'";
+                                                            $query_get_username = $conn_hosxp->query($get_username);
+                                                            $num = $query_get_username->num_rows;
+                                                            if ($num > 0) {
+                                                                $dataUser = $query_get_username->fetch_assoc();
+                                                                $fullNameUser = $dataUser["name"];
+                                                            }
+                                                            $diff = abs(strtotime($dataReport['created_date']) - strtotime($dataReport['completed_date']));
+
+                                                            $years = floor($diff / (365 * 60 * 60 * 24));
+                                                            $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
+                                                            $days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
+                                                            if (($days + 1) <= 10) {
+                                                                $countLess += 1;
+                                                            } else {
+                                                                $countOver += 1;
+                                                            }
                                                     ?>
-                                                        <tr height="35">
-                                                            <td class="text-center font-thaisaraban data-report pl-1 pr-1">
-                                                                <?= $no ?>
-                                                            </td>
-                                                            <td class="font-thaisaraban data-report pl-1 pr-1">
-                                                                <?= $dataReport['request_name'] ?>
-                                                            </td>
-                                                            <td class="text-center font-thaisaraban data-report pl-1 pr-1">
-                                                                <?= DateTimeThai($dataReport['created_date'], 1) ?>
-                                                            </td>
-                                                            <td class="text-center font-thaisaraban data-report pl-1 pr-1">
-                                                                <?= DateTimeThai($dataReport['appointment_date'], 1) ?>
-                                                            </td>
-                                                            <td class="text-center font-thaisaraban data-report pl-1 pr-1">
-                                                                <?= DateTimeThai($dataReport['completed_date'], 1) ?>
-                                                            </td>
-                                                            <td class="text-center font-thaisaraban data-report pl-1 pr-1">
-                                                                <?= $dataReport['numCompleted'] . " วัน" ?>
-                                                            </td>
-                                                            <td class="font-thaisaraban data-report pl-1 pr-1">
-                                                                <?= $fullNameUser ?>
+                                                            <tr height="35">
+                                                                <td class="text-center font-thaisaraban data-report pl-1 pr-1">
+                                                                    <?= $no ?>
+                                                                </td>
+                                                                <td class="font-thaisaraban data-report pl-1 pr-1">
+                                                                    <?= $dataReport['request_name'] ?>
+                                                                </td>
+                                                                <td class="text-center font-thaisaraban data-report pl-1 pr-1">
+                                                                    <?= DateTimeThai($dataReport['created_date'], 1) ?>
+                                                                </td>
+                                                                <td class="text-center font-thaisaraban data-report pl-1 pr-1">
+                                                                    <?= DateTimeThai($dataReport['appointment_date'], 1) ?>
+                                                                </td>
+                                                                <td class="text-center font-thaisaraban data-report pl-1 pr-1">
+                                                                    <?= DateTimeThai($dataReport['completed_date'], 1) ?>
+                                                                </td>
+                                                                <td class="text-center font-thaisaraban data-report pl-1 pr-1">
+                                                                    <?= ($days) + 1 . " วัน" ?>
+                                                                </td>
+                                                                <td class="font-thaisaraban data-report pl-1 pr-1">
+                                                                    <?= $fullNameUser ?>
+                                                                </td>
+                                                            </tr>
+                                                        <?php
+                                                            $no++;
+                                                        }
+                                                        ?>
+
+                                                        <tr>
+                                                            <td class="text-right" colspan="7">
+                                                                <div class="mt-2">
+                                                                    <span class="font-weight-bold font-thaisaraban data-report">เอกสารเสร็จภายใน 10 วัน </span>
+                                                                    <span class="font-weight-bold mr-3 font-thaisaraban data-report"><?= "<u>".number_format($countLess)."</u> คำร้อง " ?></u>ร้อยละ <?=(intval($countLess)*100)/intval($num_rows_report)?></span>
+                                                                </div>
+                                                                <div>
+                                                                    <span class="font-weight-bold font-thaisaraban data-report">เอกสารเสร็จมากกว่า 10 วัน </span>
+                                                                    <span class="font-weight-bold mr-3 font-thaisaraban data-report"><?= "<u>".number_format($countOver)."</u> คำร้อง " ?></u>ร้อยละ <?=(intval($countOver)*100)/intval($num_rows_report)?></span>
+                                                                </div>
+                                                                <div class="mb-2">
+                                                                    <span class="font-weight-bold font-thaisaraban data-report">คำร้องขอเอกสารทั้งหมด </span>
+                                                                    <span class="font-weight-bold mr-3 font-thaisaraban data-report"><?= "<u>".number_format($num_rows_report)."</u> คำร้อง " ?></span>
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                     <?php
-                                                        $no++;
+                                                    } else {
+                                                    ?>
+                                                        <tr height="35">
+                                                            <td class="text-center" colspan="7">
+                                                                ไม่พบข้อมูล
+                                                            </td>
+                                                        </tr>
+
+                                                    <?php
                                                     }
                                                     ?>
                                                 </tbody>
@@ -262,7 +332,7 @@
                                     </div>
                                 </div>
                             <?php
-                            }elseif($_GET['page'] === "register"){
+                            } elseif ($_GET['page'] === "register") {
                                 include 'pages/register.php';
                             }
                         } else {
@@ -507,26 +577,6 @@
             document.body.innerHTML = originalContents;
         }
         $(document).ready(function() {
-            // dayNamesShort: ["อา.", "จ.", "อ.", "พ.", "พฤ.", "ศ.", "ส."],
-            $("#startDate").datepicker({
-                monthNames: ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"],
-                dateFormat: "dd/mm/yy",
-                changeYear: true,
-                onSelect: function(date) {
-                    $("#endDate").attr("disabled", false)
-                }
-            });
-            $("#endDate").datepicker({
-                monthNames: ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"],
-                dateFormat: "dd/mm/yy",
-                changeYear: true
-            });
-
-            $("#selectDate").datepicker({
-                monthNames: ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"],
-                dateFormat: "dd/mm/yy",
-                changeYear: true
-            });
             <?php
             if (!isset($_SESSION['userName'])) {
             ?>
@@ -543,6 +593,28 @@
             <?php
             }
             ?>
+            // dayNamesShort: ["อา.", "จ.", "อ.", "พ.", "พฤ.", "ศ.", "ส."],
+            $("#startDate").datepicker({
+                monthNames: ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"],
+                dateFormat: "dd/mm/yy",
+                changeYear: true,
+                onSelect: function(date) {
+                    $("#endDate").attr("disabled", false)
+                }
+            });
+
+            $("#endDate").datepicker({
+                monthNames: ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"],
+                dateFormat: "dd/mm/yy",
+                changeYear: true
+            });
+
+            $("#selectDate").datepicker({
+                monthNames: ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"],
+                dateFormat: "dd/mm/yy",
+                changeYear: true
+            });
+
         })
         // success: function(data, textStatus, jqXHR) {
         //                 console.log(data); //*** returns correct json data

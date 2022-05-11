@@ -25,8 +25,8 @@
                                     while ($dataPetition = $query_register_petition->fetch_assoc()) {
                                     ?>
                                         <option value="<?= $dataPetition['petition_id'] ?>">
-                                        <?= $dataPetition['petition_name']." (".$dataPetition['petition_detail'].")" ?>
-                                    </option>
+                                            <?= $dataPetition['petition_name'] . " (" . $dataPetition['petition_detail'] . ")" ?>
+                                        </option>
                                     <?php
                                     }
                                     ?>
@@ -113,13 +113,22 @@
                                                 โปรดระบุที่อยู่ของผู้ยื่นคำร้อง
                                             </div>
                                         </div>
-                                        <div class="col-12 mb-2">
-                                            <label class="grey-text" for="details">
-                                                เหตุผลการนำไปใช้ประโยชน์ <span class="text-danger ml-1">*</span>
+                                        <div class="col-6 mb-2">
+                                            <label class="grey-text" for="request_details">
+                                                เพื่อใช้ประกอบการ <span class="text-danger ml-1">*</span>
                                             </label>
-                                            <textarea class="form-control rounded-0" id="details" name="details" rows="3"></textarea>
+                                            <input type="text" class="form-control" name="request_details" id="request_details" />
                                             <div class="invalid-feedback">
-                                                โปรดระบุเหตุผลการนำไปใช้ประโยชน์
+                                                โปรดเลือกความเกี่ยวข้องกับผู้ป่วย
+                                            </div>
+                                        </div>
+                                        <div class="col-6 mb-2">
+                                            <label class="grey-text" for="request_detail_2">
+                                                เพื่อยื่นต่อ <span class="small-text">(ไม่ระบุก็ได้)</span>
+                                            </label>
+                                            <input type="text" class="form-control" name="request_detail_2" id="request_detail_2" />
+                                            <div class="invalid-feedback">
+                                                โปรดเลือกความเกี่ยวข้องกับผู้ป่วย
                                             </div>
                                         </div>
                                     </div>

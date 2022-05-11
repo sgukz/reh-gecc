@@ -216,23 +216,23 @@ $("#showDataRegister").on('show.bs.modal', function (event) {
 });
 
 $('#showDataRegister').on('hidden.bs.modal', function (e) {
-    $("#showData").DataTable().destroy();
-    let showAll = window.localStorage.getItem("showAll")
-    if (showAll) {
-        if (showAll === "all") {
-            $("#showDataAll").addClass("btn-danger").removeClass("btn-info")
-            $("#labelShowAll").text("ยกแสดงทั้งหมด")
-            fetchData("all");
-        } else {
-            $("#showDataAll").addClass("btn-info").removeClass("btn-danger")
-            $("#labelShowAll").text("แสดงทั้งหมด")
-            fetchData(date_now);
-        }
-    } else {
-        $("#showDataAll").addClass("btn-info").removeClass("btn-danger")
-        $("#labelShowAll").text("แสดงทั้งหมด")
-        fetchData(date_now);
-    }
+    // $("#showData").DataTable().destroy();
+    // let showAll = window.localStorage.getItem("showAll")
+    // if (showAll) {
+    //     if (showAll === "all") {
+    //         $("#showDataAll").addClass("btn-danger").removeClass("btn-info")
+    //         $("#labelShowAll").text("ยกแสดงทั้งหมด")
+    //         fetchData("all");
+    //     } else {
+    //         $("#showDataAll").addClass("btn-info").removeClass("btn-danger")
+    //         $("#labelShowAll").text("แสดงทั้งหมด")
+    //         fetchData(date_now);
+    //     }
+    // } else {
+    //     $("#showDataAll").addClass("btn-info").removeClass("btn-danger")
+    //     $("#labelShowAll").text("แสดงทั้งหมด")
+    //     fetchData(date_now);
+    // }
     $("#appointment_date").val("");
     $("#receive_name").val("");
     $("#approve_details").val("");
@@ -269,12 +269,12 @@ function fetchData(dateNow) {
         },
         {
             "orderable": false,
-            "targets": [6, 7, 8]
+            "targets": [0, 6, 7, 8]
         },
         ],
         "lengthMenu": [
-            [10, 25, 50, 100, -1],
-            [10, 25, 50, 100, "ทั้งหมด"]
+            [50, 100, -1],
+            [50, 100, "ทั้งหมด"]
         ],
         "oLanguage": {
             "sLengthMenu": "แสดง _MENU_ เร็คคอร์ด ต่อหน้า",
@@ -637,22 +637,31 @@ function getDateNow() {
     return date_now
 }
 
-setInterval(() => {
-    let showAll = window.localStorage.getItem("showAll")
-    $("#showData").DataTable().destroy();
-    if (showAll) {
-        if (showAll === "all") {
-            $("#showDataAll").addClass("btn-danger").removeClass("btn-info")
-            $("#labelShowAll").text("ยกแสดงทั้งหมด")
-            fetchData("all");
-        } else {
-            $("#showDataAll").addClass("btn-info").removeClass("btn-danger")
-            $("#labelShowAll").text("แสดงทั้งหมด")
-            fetchData(date_now);
-        }
-    } else {
-        $("#showDataAll").addClass("btn-info").removeClass("btn-danger")
-        $("#labelShowAll").text("แสดงทั้งหมด")
-        fetchData(date_now);
-    }
-}, 10000)
+
+$('#reportDateSelect').change(function () {
+    let dateNow = new Date();
+    let year = dateNow.getFullYear();
+    let fullMonth = `${year}-${$(this).val()}-01`
+    window.location = 'index.php?page=report-proccess&reportDateSelect=' + fullMonth;
+    // Window.location = "index.php?page=report-proccess&reportDateSelect=" + fullMonth
+});
+
+// setInterval(() => {
+//     let showAll = window.localStorage.getItem("showAll")
+//     $("#showData").DataTable().destroy();
+//     if (showAll) {
+//         if (showAll === "all") {
+//             $("#showDataAll").addClass("btn-danger").removeClass("btn-info")
+//             $("#labelShowAll").text("ยกแสดงทั้งหมด")
+//             fetchData("all");
+//         } else {
+//             $("#showDataAll").addClass("btn-info").removeClass("btn-danger")
+//             $("#labelShowAll").text("แสดงทั้งหมด")
+//             fetchData(date_now);
+//         }
+//     } else {
+//         $("#showDataAll").addClass("btn-info").removeClass("btn-danger")
+//         $("#labelShowAll").text("แสดงทั้งหมด")
+//         fetchData(date_now);
+//     }
+// }, 10000)

@@ -1,12 +1,5 @@
 <?php
-// $HOST = "";
-// $USER = "";
-// $PASS = "";
-// $DBNAME = "";
-// $HOST = "";
-// $USER = "";
-// $PASS = "";
-// $DBNAME = "";
+
 
 $conn_main = new mysqli(
     $HOST,
