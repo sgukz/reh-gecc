@@ -1,5 +1,17 @@
 <?php
+$HOST = "localhost";
+$USER = "root";
+$PASS = "";
+$DBNAME = "db_reh_gecc";
+// $HOST = "61.19.127.231";
+// $USER = "sgdev";
+// $PASS = '!Qazxsw2';
+// $DBNAME = "db_reh_gecc";
 
+$HOST_HOS = "192.168.77.30";
+$USER_HOS = "sa";
+$PASS_HOS = 'sa';
+$DBNAME_HOS = "hos";
 
 $conn_main = new mysqli(
     $HOST,

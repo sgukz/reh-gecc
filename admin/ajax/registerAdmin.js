@@ -9,7 +9,7 @@ $.validator.setDefaults({
     submitHandler: function () {
         $.ajax({
             method: "POST",
-            url: "../src/controllers/RegisterController.php",
+            url: "controllers/RegisterController.php",
             data: $("#formRegister").serialize(),
             dataType: "json",
         })
@@ -57,7 +57,6 @@ $.validator.setDefaults({
     }
 });
 
-
 $("#formRegister").validate({
     rules: {
         petition_type: "required",
@@ -67,6 +66,8 @@ $("#formRegister").validate({
         petition_phone: "required",
         petition_address: "required",
         patient_name: "required",
+        hn: "required",
+        cid: "required",
         request_details: "required",
         appointment_date_admin: "required",
     },

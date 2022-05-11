@@ -223,7 +223,7 @@ if (isset($_GET['id'])) {
                                                 <label class="grey-text" for="hn">
                                                     HN
                                                 </label>
-                                                <input type="text" class="form-control" readonly name="hn" id="hn" value="<?= $hn ?>" />
+                                                <input type="text" class="form-control" name="hn" id="hn" value="<?= $hn ?>" />
                                                 <input type="hidden" name="an" id="an" value="<?= $an ?>" />
                                                 <input type="hidden" name="vn" id="vn" value="<?= $vn ?>" />
                                                 <input type="hidden" name="vst_date" id="vst_date" value="<?= $vst_date ?>" />
@@ -235,7 +235,7 @@ if (isset($_GET['id'])) {
                                                 <label class="grey-text" for="cid">
                                                     เลขบัตรประชาชน
                                                 </label>
-                                                <input type="text" class="form-control" readonly name="cid" id="cid" value="<?= $cid ?>" />
+                                                <input type="text" class="form-control" name="cid" id="cid" value="<?= $cid ?>" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -247,7 +247,8 @@ if (isset($_GET['id'])) {
                                             </div>
                                             <div class="col-6 mb-2">
                                                 <label class="grey-text" for="vstdate">
-                                                    วันที่มารับบริการ <span class="text-danger ml-1">*</span>
+                                                    วันที่มารับบริการ 
+                                                    <!-- <span class="text-danger ml-1">*</span> -->
                                                 </label>
                                                 <select class="browser-default custom-select" id="vstdate" name="vstdate">
                                                     <option selected disabled>เลือกวันที่มารับบริการ</option>

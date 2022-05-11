@@ -4,7 +4,7 @@ let showAll = window.localStorage.getItem("showAll")
 if (showAll) {
     if (showAll === "all") {
         $("#showDataAll").addClass("btn-danger").removeClass("btn-info")
-        $("#labelShowAll").text("ยกแสดงทั้งหมด")
+        $("#labelShowAll").text("ยกเลิกแสดงทั้งหมด")
         fetchData("all");
     } else {
         $("#showDataAll").addClass("btn-info").removeClass("btn-danger")
@@ -65,14 +65,14 @@ $("#showDataAll").click(function () {
         } else {
             window.localStorage.setItem("showAll", "all")
             $("#showDataAll").addClass("btn-danger").removeClass("btn-info")
-            $("#labelShowAll").text("ยกแสดงทั้งหมด")
+            $("#labelShowAll").text("ยกเลิกแสดงทั้งหมด")
             $("#showData").DataTable().destroy();
             fetchData("all");
         }
     } else {
         window.localStorage.setItem("showAll", "all")
         $("#showDataAll").addClass("btn-danger").removeClass("btn-info")
-        $("#labelShowAll").text("ยกแสดงทั้งหมด")
+        $("#labelShowAll").text("ยกเลิกแสดงทั้งหมด")
         $("#showData").DataTable().destroy();
         fetchData("all");
     }
@@ -221,7 +221,7 @@ $('#showDataRegister').on('hidden.bs.modal', function (e) {
     // if (showAll) {
     //     if (showAll === "all") {
     //         $("#showDataAll").addClass("btn-danger").removeClass("btn-info")
-    //         $("#labelShowAll").text("ยกแสดงทั้งหมด")
+    //         $("#labelShowAll").text("ยกเลิกแสดงทั้งหมด")
     //         fetchData("all");
     //     } else {
     //         $("#showDataAll").addClass("btn-info").removeClass("btn-danger")
@@ -652,7 +652,7 @@ $('#reportDateSelect').change(function () {
 //     if (showAll) {
 //         if (showAll === "all") {
 //             $("#showDataAll").addClass("btn-danger").removeClass("btn-info")
-//             $("#labelShowAll").text("ยกแสดงทั้งหมด")
+//             $("#labelShowAll").text("ยกเลิกแสดงทั้งหมด")
 //             fetchData("all");
 //         } else {
 //             $("#showDataAll").addClass("btn-info").removeClass("btn-danger")
