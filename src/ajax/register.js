@@ -46,7 +46,6 @@ $("#formRegister").validate({
         petition_phone: "required",
         petition_address: "required",
         patient_name: "required",
-        vstdate: "required",
         details: "required",
     },
     errorElement: "em",

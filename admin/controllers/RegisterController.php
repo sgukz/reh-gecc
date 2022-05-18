@@ -34,7 +34,7 @@ if ($_POST) {
         "request_detail_2" => $_POST["request_detail_2"] !== "" ? $_POST["request_detail_2"] : "null",
         "vstdate" => $_POST["vst_date"] !== "" ? $_POST["vst_date"] : "null",
         "regdate" => $_POST["admit_date"] !== "" ? $_POST["admit_date"] : "null",
-        "dchdate" => $_POST["dhc_date"] !== "" ? $_POST["dhc_date"] : ($_POST['select_dch_date'] !== "" ? $_POST['select_dch_date'] : "null"),
+        "dchdate" => $_POST["dhc_date"] !== "" ? $_POST["dhc_date"]  : "null",
         "dep_name" => $_POST["ward_name"] !== "" ? $_POST["ward_name"] : "null",
         "doctor_name" => $_POST["doctor_name"] !== "" ? $_POST["doctor_name"] : "null",
         "petition_id" => $_POST["petition_type"],

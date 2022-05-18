@@ -204,14 +204,14 @@
                                                 <label class="grey-text" for="admit_date_display">
                                                     วันที่รับการรักษา
                                                 </label>
-                                                <input type="text" class="form-control" readonly name="admit_date_display" id="admit_date_display" />
+                                                <input type="text" class="form-control" name="admit_date_display" id="admit_date_display" />
                                                 <input type="hidden" name="admit_date" id="admit_date" />
                                             </div>
                                             <div class="col-6 mb-2">
                                                 <label class="grey-text" for="dhc_date_display">
                                                     วันที่จำหน่าย
                                                 </label>
-                                                <input type="text" class="form-control" readonly name="dhc_date_display" id="dhc_date_display" />
+                                                <input type="text" class="form-control" name="dhc_date_display" id="dhc_date_display" />
                                                 <input type="hidden" name="dhc_date" id="dhc_date" />
                                             </div>
                                             <div class="col-6 mb-2">

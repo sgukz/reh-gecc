@@ -6,7 +6,9 @@ $patient = new Patients();
 
 if ($_POST) {
     $resp = $arrayReport = array();
-    $sql = $condition = $conditionDate = $condition2 = $section = "";
+    $sql = $conditionStartDate = $conditionEndDate = $conditionPetition = $conditionDoctor = $section = "";
+    $condition = "d.approve_status = 3 ";
+    $orderBy = " ORDER BY d.approve_status = 3 ";
     $startDate = $_POST["startDate"] !== "" ? $_POST["startDate"] : "";
     $endDate = isset($_POST["endDate"]) ? $_POST["endDate"] : "";
     $petition_id = isset($_POST["petition_type"]) ? ($_POST["petition_type"] !== "" ? $_POST["petition_type"] : "") : "";
@@ -25,42 +27,37 @@ if ($_POST) {
         $doctor_name !== ""
     ) {
         if ($newStartDate !== "" && $newEndDate !== "") {
-            $section = "วันที่ยื่นคำร้อง ".DateTimeThai($newStartDate, 1)." ถึง ".DateTimeThai($newEndDate, 1);
-            $conditionDate = "(d.created_date LIKE '%$newStartDate%' AND d.created_date LIKE '%$newEndDate%') AND d.approve_status = 3 ";
-        } elseif ($newStartDate !== "" && $newEndDate === "") {
-            $section = "วันที่ยื่นคำร้อง ".DateTimeThai($newStartDate, 1);
-            $conditionDate = "d.created_date LIKE '%$newStartDate%' AND d.approve_status = 3 ";
-        }
-        if ($conditionDate !== "") {
-            $conditionDate = $conditionDate !== "" ? $conditionDate : " d.approve_status = 3";
-            if ($petition_id !== "" && $doctor_name !== "") {
-                $condition2 = $conditionDate . " AND d.petition_id = '$petition_id' AND d.doctor_name LIKE '%$doctor_name%' ";
-            } elseif ($petition_id !== "" && $doctor_name === "") {
-                $condition2 = $conditionDate . " AND d.petition_id = '$petition_id' ";
-            } elseif ($doctor_name !== "" && $petition_id === "") {
-                $condition2 = $conditionDate . " AND d.doctor_name LIKE '%$doctor_name%' ";
-            }
+            $section = ($newStartDate === $newEndDate ? "วันที่ยื่นคำร้อง " . DateTimeThai($newStartDate, 1) : "วันที่ยื่นคำร้อง " . DateTimeThai($newStartDate, 1) . " ถึง " . DateTimeThai($newEndDate, 1));
+            $conditionStartDate = " AND d.created_date BETWEEN '$newStartDate 00:00:00' AND '$newEndDate 23:59:59' ";
         } else {
-            
-            if ($petition_id !== "" && $doctor_name !== "") {
-                $condition2 = $conditionDate . "d.petition_id = '$petition_id' AND doctor_name LIKE '%$doctor_name%' AND d.approve_status = 3";
-            } elseif ($petition_id !== "" && $doctor_name === "") {
-                $condition2 = $conditionDate . "d.petition_id = '$petition_id' AND d.approve_status = 3";
-            } elseif ($doctor_name !== "" && $petition_id === "") {
-                $condition2 = $conditionDate . "d.doctor_name LIKE '%$doctor_name%' AND d.approve_status = 3";
+            $section = ($newEndDate !== "" ? "วันที่ยื่นคำร้อง " . DateTimeThai($newStartDate, 1) . " ถึง " . DateTimeThai($newEndDate, 1) : "วันที่ยื่นคำร้อง " . DateTimeThai($newStartDate, 1));
+            if ($newStartDate !== "") {
+                $conditionStartDate = " AND d.created_date BETWEEN '$newStartDate 00:00:00' AND '$newStartDate 23:59:59' ";
+            } else {
+                $conditionStartDate = "";
+            }
+
+            if ($newEndDate !== "") {
+                $conditionStartDate = " AND d.created_date BETWEEN '$newEndDate 00:00:00' AND '$newEndDate 23:59:59' ";
+            } else {
+                $conditionEndDate = "";
             }
         }
-    } else {
-        if ($petition_id !== "" && $doctor_name !== "") {
-            $condition2 = $conditionDate . " AND d.petition_id = '$petition_id' AND d.doctor_name LIKE '%$doctor_name%' AND d.approve_status = 3";
-        } elseif ($petition_id !== "" && $doctor_name === "") {
-            $condition2 = $conditionDate . " AND d.petition_id = '$petition_id' AND d.approve_status = 3";
-        } elseif ($doctor_name !== "" && $petition_id === "") {
-            $condition2 = $conditionDate . " AND d.doctor_name LIKE '%$doctor_name%' AND d.approve_status = 3";
+
+
+        if ($petition_id !== "") {
+            $conditionPetition = " AND d.petition_id = '$petition_id' ";
+        } else {
+            $conditionPetition = "";
         }
-        $condition2 = "d.approve_status = 3 ";
+
+        if ($doctor_name !== "") {
+            $conditionDoctor = " AND d.doctor_name = '$doctor_name' ";
+        } else {
+            $conditionDoctor = "";
+        }
     }
-    $condition = $condition2.$conditionDate;
+    $condition .= $conditionStartDate . $conditionEndDate . $conditionPetition . $conditionDoctor;
 
 
     $sql = "SELECT * FROM register_document d
@@ -69,6 +66,8 @@ if ($_POST) {
             LEFT JOIN register_status s ON d.approve_status = s.status_id
             WHERE $condition
             ";
+
+
     $query_report = $conn_main->query($sql);
     if ($query_report) {
         $num_rows = $query_report->num_rows;
@@ -82,8 +81,8 @@ if ($_POST) {
             </div>
             <div id="report">
                 <div class="text-center font-thaisaraban header-report">ทะเบียนนำส่งใบรายงานแพทย์</div>
-                <div class="text-center font-thaisaraban header-report"><?=$section?></div>
-                <div class="text-right font-thaisaraban header-report">ข้อมูล ณ วันที่ <?=DateTimeThai(date("Y-m-d"), 1)?></div>
+                <div class="text-center font-thaisaraban header-report"><?= $section ?></div>
+                <div class="text-right font-thaisaraban header-report">ข้อมูล ณ วันที่ <?= DateTimeThai(date("Y-m-d"), 1) ?></div>
                 <table class="mt-3" width="100%" border="1" cellpadding="0" cellspacing="1">
                     <thead>
                         <tr bgcolor="#e0e0e0">

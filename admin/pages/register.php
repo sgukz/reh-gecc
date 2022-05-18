@@ -247,7 +247,7 @@ if (isset($_GET['id'])) {
                                             </div>
                                             <div class="col-6 mb-2">
                                                 <label class="grey-text" for="vstdate">
-                                                    วันที่มารับบริการ 
+                                                    วันที่มารับบริการ
                                                     <!-- <span class="text-danger ml-1">*</span> -->
                                                 </label>
                                                 <select class="browser-default custom-select" id="vstdate" name="vstdate">
@@ -257,22 +257,18 @@ if (isset($_GET['id'])) {
                                         </div>
                                         <div class="row">
                                             <div class="col-6 mb-2">
+
                                                 <label class="grey-text" for="admit_date_display">
                                                     วันที่รับการรักษา
                                                 </label>
-                                                <input type="text" class="form-control" readonly name="admit_date_display" id="admit_date_display" value="<?= $displayDateRegis ?>" />
+                                                <input type="text" class="form-control" name="admit_date_display" id="admit_date_display" value="<?= $displayDateRegis ?>" />
                                                 <input type="hidden" name="admit_date" id="admit_date" value="<?= $regdate ?>" />
                                             </div>
                                             <div class="col-6 mb-2">
                                                 <label class="grey-text" for="dhc_date_display">
                                                     วันที่จำหน่าย
                                                 </label>
-                                                <div id="showSelectDchDate" class="hidden-el">
-                                                    <input type="date" class="form-control" name="select_dch_date" id="select_dch_date">
-                                                </div>
-                                                <div id="showDisplayDchDate">
-                                                    <input type="text" class="form-control mt-1" readonly name="dhc_date_display" id="dhc_date_display" value="<?= $displayDateDch ?>" />
-                                                </div>
+                                                <input type="text" class="form-control mt-1" name="dhc_date_display" id="dhc_date_display" value="<?= $displayDateDch ?>" />
                                                 <input type="hidden" name="dhc_date" id="dhc_date" value="<?= $dchdate ?>" />
                                             </div>
                                             <div class="col-6 mb-2">

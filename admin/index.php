@@ -2,13 +2,18 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <!-- <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Administrator - ศูนย์ราชการสะดวก โรงพยาบาลร้อยเอ็ด</title>
-    <!-- MDB icon -->
-    <link rel="icon" href="../src/assets/img/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="../src/assets/img/logo.png">
+    <link rel="shortcut icon" href="../src/assets/img/logo.png"> -->
+
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <link rel="manifest" href="site.webmanifest"> -->
+    <link rel="shortcut icon" href="../src/assets/img/logo.ico">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
     <!-- Google Fonts Roboto -->
@@ -210,7 +215,7 @@
                                         </div>
 
                                         <div id="reportProcess">
-                                            <div class="text-center font-thaisaraban header-report">รายงานสรุปดำเนินการ <?=$arrayMonth[$month]?></div>
+                                            <div class="text-center font-thaisaraban header-report">รายงานสรุปดำเนินการ <?= $arrayMonth[$month] ?></div>
                                             <div class="text-right font-thaisaraban header-report">ข้อมูล ณ วันที่ <?= DateTimeThai(date("Y-m-d"), 1) ?></div>
                                             <table class="mt-3" width="100%" border="1" cellpadding="0" cellspacing="1">
                                                 <thead>
@@ -302,15 +307,15 @@
                                                             <td class="text-right" colspan="7">
                                                                 <div class="mt-2">
                                                                     <span class="font-weight-bold font-thaisaraban data-report">เอกสารเสร็จภายใน 10 วัน </span>
-                                                                    <span class="font-weight-bold mr-3 font-thaisaraban data-report"><?= "<u>".number_format($countLess)."</u> คำร้อง " ?></u>ร้อยละ <?=(intval($countLess)*100)/intval($num_rows_report)?></span>
+                                                                    <span class="font-weight-bold mr-3 font-thaisaraban data-report"><?= "<u>" . number_format($countLess) . "</u> คำร้อง " ?></u>ร้อยละ <?= (intval($countLess) * 100) / intval($num_rows_report) ?></span>
                                                                 </div>
                                                                 <div>
                                                                     <span class="font-weight-bold font-thaisaraban data-report">เอกสารเสร็จมากกว่า 10 วัน </span>
-                                                                    <span class="font-weight-bold mr-3 font-thaisaraban data-report"><?= "<u>".number_format($countOver)."</u> คำร้อง " ?></u>ร้อยละ <?=(intval($countOver)*100)/intval($num_rows_report)?></span>
+                                                                    <span class="font-weight-bold mr-3 font-thaisaraban data-report"><?= "<u>" . number_format($countOver) . "</u> คำร้อง " ?></u>ร้อยละ <?= (intval($countOver) * 100) / intval($num_rows_report) ?></span>
                                                                 </div>
                                                                 <div class="mb-2">
                                                                     <span class="font-weight-bold font-thaisaraban data-report">คำร้องขอเอกสารทั้งหมด </span>
-                                                                    <span class="font-weight-bold mr-3 font-thaisaraban data-report"><?= "<u>".number_format($num_rows_report)."</u> คำร้อง " ?></span>
+                                                                    <span class="font-weight-bold mr-3 font-thaisaraban data-report"><?= "<u>" . number_format($num_rows_report) . "</u> คำร้อง " ?></span>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -576,6 +581,7 @@
             window.print();
             document.body.innerHTML = originalContents;
         }
+
         $(document).ready(function() {
             <?php
             if (!isset($_SESSION['userName'])) {
@@ -594,6 +600,23 @@
             }
             ?>
             // dayNamesShort: ["อา.", "จ.", "อ.", "พ.", "พฤ.", "ศ.", "ส."],
+            $("#admit_date_display").datepicker({
+                monthNames: ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"],
+                dateFormat: "dd/mm/yy",
+                changeYear: true,
+                onSelect: function(date) {
+                    $("#admit_date").val(formatDateEN(date, 1));
+                }
+            });
+            $("#dhc_date_display").datepicker({
+                monthNames: ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"],
+                dateFormat: "dd/mm/yy",
+                changeYear: true,
+                onSelect: function(date) {
+                    $("#dhc_date").val(formatDateEN(date, 1));
+                }
+            });
+
             $("#startDate").datepicker({
                 monthNames: ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"],
                 dateFormat: "dd/mm/yy",

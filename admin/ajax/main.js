@@ -40,6 +40,20 @@ function approveStatus(st) {
     return status
 }
 
+function formatDateEN(date, type) {
+    let arrDate = ""
+    let strDate = ""
+    if(type === 1){
+        arrDate = date.split('/')
+        strDate = `${arrDate[2]}-${arrDate[1]}-${arrDate[0]}`
+    }else{
+        arrDate = date.split('-')
+        strDate = `${arrDate[2]}/${arrDate[1]}/${arrDate[0]}`
+    }
+    return strDate
+}
+
+
 $("#searchSelectDate").click(function () {
     let selectDate = $("#selectDate").val()
     if (selectDate !== "") {

@@ -7,8 +7,8 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>ลงทะเบียนคำร้องขอเอกสาร - ศูนย์ราชการสะดวก โรงพยาบาลร้อยเอ็ด</title>
   <!-- MDB icon -->
-  <link rel="icon" href="src/assets/img/logo.png" type="image/x-icon">
-  <link rel="shortcut icon" href="src/assets/img/logo.png">
+  <!-- <link rel="icon" href="src/assets/img/logo.png" type="image/x-icon"> -->
+  <link rel="shortcut icon" href="src/assets/img/logo.ico">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
   <!-- Google Fonts Roboto -->
@@ -48,12 +48,12 @@
 
       <!-- Links -->
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item <?=isset($_GET["page"]) ? "" : "active"?>">
+        <li class="nav-item <?= isset($_GET["page"]) ? "" : "active" ?>">
           <a class="nav-link" href="index.php">ลงทะเบียนคำร้อง
             <span class="sr-only">(current)</span>
           </a>
         </li>
-        <li class="nav-item <?=isset($_GET["page"]) ? "active" : ""?>">
+        <li class="nav-item <?= isset($_GET["page"]) ? "active" : "" ?>">
           <a class="nav-link" href="index.php?page=check">ตรวจสอบสถานะคำร้อง</a>
         </li>
     </div>
@@ -62,14 +62,14 @@
   </nav>
   <!--/.Navbar-->
   <?php
-  if(isset($_GET["page"])){
+  if (isset($_GET["page"])) {
     include 'src/pages/check.php';
-  }else{
+  } else {
     include 'src/pages/register.php';
   }
   ?>
 
-  
+
   <!-- jQuery -->
   <script type="text/javascript" src="src/assets/js/jquery.min.js"></script>
   <!-- Bootstrap tooltips -->
@@ -84,7 +84,26 @@
   <script type="text/javascript" src="src/ajax/register.js"></script>
   <script type="text/javascript" src="src/ajax/check.js"></script>
   <!-- Your custom scripts (optional) -->
-
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#admit_date_display").datepicker({
+        monthNames: ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"],
+        dateFormat: "dd/mm/yy",
+        changeYear: true,
+        onSelect: function(date) {
+          $("#admit_date").val(formatDateEN(date, 1));
+        }
+      });
+      $("#dhc_date_display").datepicker({
+        monthNames: ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"],
+        dateFormat: "dd/mm/yy",
+        changeYear: true,
+        onSelect: function(date) {
+          $("#dhc_date").val(formatDateEN(date, 1));
+        }
+      });
+    })
+  </script>
 </body>
 
 </html>

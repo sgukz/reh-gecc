@@ -116,7 +116,7 @@ function getPatient(cid) {
                     $("#hn").val(resp.data[0].hn);
                     $("#cid").val(resp.data[0].cid);
                     $("#patient_name").val(resp.data[0].full_name);
-                    $("#cid").val(resp.data[0].cid);
+                    // $("#cid").val(resp.data[0].cid);
                     resp.data.map(val => {
                         let textOption = DateTimeThai(val.vstDate)
                         let valueOption = (val.an === null) ? val.vstDate + ", hn, " + val.hn : val.vstDate + ", an, " + val.an
@@ -187,14 +187,11 @@ function getVstdate(vstdate, section, hnORan) {
                     $("#dhc_date").val(resp.data[0].dchDate);
                     $("#ward_name").val(resp.data[0].dep_name);
                     $("#doctor_name").val(resp.data[0].DoctorName);
-                    $("#admit_date_display").val(DateTimeThai(resp.data[0].visitDate));
+                    $("#admit_date_display").val(formatDateEN(resp.data[0].visitDate, 2));
                     if(resp.data[0].dchDate !== ""){
-                        $("#dhc_date_display").val(DateTimeThai(resp.data[0].dchDate));
-                        $("#showSelectDchDate").addClass("hidden-el")
-                        $("#showDisplayDchDate").removeClass("hidden-el")
+                        $("#dhc_date_display").val(formatDateEN(resp.data[0].dchDate, 2));
                     }else{
-                        $("#showDisplayDchDate").addClass("hidden-el")
-                        $("#showSelectDchDate").removeClass("hidden-el")
+                        $("#dhc_date_display").val("");
                     }
                 } else {
                     Swal.fire({
